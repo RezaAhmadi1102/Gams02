@@ -1,0 +1,32 @@
+sets
+i index for var /s,t/
+j index for constraint /1*3/;
+
+parameters
+b(j) right /1 50, 2 60, 3 80/
+
+table A(j,i) zaraieb mahdodiat
+                 s       t
+         1       2       8
+         2       5       9
+         3       1       1;
+table c(i,j) zaraieb of
+                 1       2       3
+         s       5       9       2
+         t       0       1       3;
+variables
+z
+positive variable y;
+
+equation
+of
+co1(j);
+
+of       ..z =e= sum((i,j), c(i,j)*y(i,j));
+co1(j)   .. sum(i, A(j,i)*y(i,j)) =l= b(j);
+
+model lp1 /All/;
+solve lp1 using lp max z;
+display z.l, y.l;
+
+

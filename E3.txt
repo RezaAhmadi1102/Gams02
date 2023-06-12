@@ -1,0 +1,22 @@
+sets
+i /1*5/;
+parameters
+a(i) /1 2, 2 7, 3 7, 4 3, 5 1/
+b(i) /1 10, 2 9, 3 12, 4 15, 5 14/;
+
+variables
+z
+x
+y;
+
+equation
+of;
+
+of       ..z =e= smax(i, abs(x-a(i))+abs(y-b(i)));
+
+model cp /all/;
+solve cp using dnlp min z;
+option dnlp = lingo;
+display z.l, x.l, y.l;
+
+
