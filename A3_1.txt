@@ -1,0 +1,22 @@
+Set
+n /1*8/;
+parameters
+F(n) /1 0.9,2 0.95,3 0.85,4 1.5,5 1.5,6 1.5,7 1.5,8 1.5/
+D(n) /1 500,2 300,3 700,4 225,5 150,6 250,7 175,8 300/
+a(n) / 1 700,2 250,3 225,4 600,5 1050,6 800,7 925,8 1000/
+b(n) / 1 1200,2 600,3 825,4 500,5 1200,6 300,7 975,8 1080/;
+
+variables
+z
+x
+y;
+
+equation
+of;
+
+of       .. z =e= sum(n, D(n)*F(n)*sqrt(power((x-a(n)),2)+power((y-b(n)),2)));
+
+
+model Gravity /All/;
+solve Gravity using NLP min z;
+display z.l, x.l, y.l;

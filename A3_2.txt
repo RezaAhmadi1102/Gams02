@@ -1,0 +1,37 @@
+Set
+n /
+$call GDXXRW Gravity.xls set = n rng =a3:a10 rdim=1 cdim=1
+$include setn.inc
+/;
+parameters
+F(n) /
+$call =xls2gms r=a3:b10 i=Gravity.xls o=parF.inc
+$include parF.inc
+/
+D(n) /
+$call =xls2gms r=c3:d10 i=Gravity.xls o=parD.inc
+$include parD.inc
+/
+a(n) /
+$call =xls2gms r=e3:f10 i=Gravity.xls o=para.inc
+$include para.inc
+/
+b(n) /
+$call =xls2gms r=g3:h10 i=Gravity.xls o=parb.inc
+$include parb.inc
+/;
+
+variables
+z
+x
+y;
+
+equation
+of;
+
+of       .. z =e= sum(n, D(n)*F(n)*sqrt(power((x-a(n)),2)+power((y-b(n)),2)));
+
+model Gravity /All/;
+solve Gravity using NLP min z;
+option NLP = IPOPT;
+display z.l, x.l, y.l;
