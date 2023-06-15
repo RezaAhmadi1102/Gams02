@@ -1,0 +1,8 @@
+set
+i number /1*200/;
+parameters
+a(i);
+loop(i,
+a(i)= normal(20,5);
+);
+display a;

@@ -1,0 +1,10 @@
+set
+i number /1*30/;
+parameters
+b
+a(i);
+loop(i,
+a(i)= uniform(20,40);
+);
+b = smax(i,a(i))
+display a,b;

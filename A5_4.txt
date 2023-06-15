@@ -1,0 +1,5 @@
+scalar b,a;
+b = normal(20,5);
+a $(b <= 20)=0;
+a $(b >= 21)=1;
+display b,a;

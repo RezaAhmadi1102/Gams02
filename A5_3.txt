@@ -1,0 +1,4 @@
+parameter b;
+for(b=20 to 30 by 2,
+display b;
+);

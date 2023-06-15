@@ -1,0 +1,35 @@
+sets
+i /NA, SA, E, Af,As/
+Alias(i,j);
+
+parameters
+d(j) /NA 12, SA 8, E 14, Af 16,As 7/
+f(i) /NA 9000, SA 6750, E 9750, Af 6150,As 6000/
+k(i) /NA 20, SA 20, E 20, Af 20,As 20/
+
+table c(i,j)
+                 NA      SA      E       Af      As
+         NA      81      91      101     130     115
+         SA      117     77      108     98      100
+         E       102     105     95      119     111
+         Af      115     125     90      59      74
+         As      142     100     103     105     71;
+variables
+z
+binary variable y
+positive variable x;
+
+equation
+of
+co1(j)
+co2(i);
+
+of       .. z =e= sum(i, f(i)*y(i))+ sum((i,j), c(i,j)*x(i,j));
+co1(j)   .. sum(i, x(i,j)) =e= d(j);
+co2(i)   .. sum(j, x(i,j)) =l= k(i)*y(i);
+
+model supplychain /ALl/;
+option optca = 0;
+option optcr = 0;
+solve supplychain using mip min z;
+display z.l, x.l, y.l;
