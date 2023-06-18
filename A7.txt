@@ -1,0 +1,42 @@
+sets
+i farms /1*21/
+k day /1*2/
+Alias(i,j);
+
+parameters
+tc tanker capacity /80000/
+r(i) /
+$call=xls2gms r=z5:aa25 i=Milkcollection.xls o=parr.inc
+$include parr.inc
+/
+table c(i,j)
+$call=xls2gms r=d4:y25 i=Milkcollection.xls o=parc.inc
+$include parc.inc
+;
+
+variables
+z
+binary variable x
+binary variable y;
+y.fx('11','1')=1;
+
+equation
+of
+co1(k)
+co2(i)
+co3(i,k)
+co4(i,k)
+co5(i,j,k)
+co6(i,j,k);
+
+of       .. z =e= sum((i,j,k) $(ord(i)<ord(j)), c(i,j)*x(i,j,k));
+co1(k)   .. sum(i,r(i)*y(i,k)) =l= tc;
+co2(i)$(ord(i)>=11)      .. sum(k, y(i,k)) =e= 1;
+co3(i,k)$(ord(i)<=10)    .. sum(j $(ord(j) > ord(i)), x(i,j,k))+ sum(j $(ord(j) < ord(i)), x(j,i,k)) =e= 2;
+co4(i,k)$(ord(i)>=11)    .. sum(j $(ord(j) > ord(i)), x(i,j,k))+ sum(j $(ord(j) < ord(i)), x(j,i,k)) - 2*y(i,k) =e= 0;
+co5(i,j,k)$(ord(i)>=11 and ord(j)>=11 and ord(j)>ord(i))       .. x(i,j,k)-y(i,k) =l= 0;
+co6(i,j,k)$(ord(i)>=11 and ord(i)>ord(j))       .. x(j,i,k)- y(i,k) =l= 0;
+
+model Milkcollection /All/;
+solve Milkcollection using mip min z;
+display z.l, x.l, y.l;
